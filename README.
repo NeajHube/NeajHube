@@ -1,0 +1,89 @@
+-- Criando a Interface do Script
+local ScreenGui = Instance.new("ScreenGui")
+local Frame = Instance.new("Frame")
+local Title = Instance.new("TextLabel")
+
+ScreenGui.Parent = game.CoreGui
+Frame.Parent = ScreenGui
+Frame.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+Frame.Size = UDim2.new(0, 250, 0, 300)
+Frame.Position = UDim2.new(0.4, 0, 0.2, 0)
+
+Title.Parent = Frame
+Title.Text = "🔥 NeajHub Animal 🔥"
+Title.Size = UDim2.new(1, 0, 0.15, 0)
+Title.BackgroundColor3 = Color3.fromRGB(255, 85, 0)
+Title.TextColor3 = Color3.fromRGB(255, 255, 255)
+Title.Font = Enum.Font.SourceSansBold
+Title.TextSize = 18
+
+-- Função para criar botões
+local function createButton(text, yOffset, callback)
+    local button = Instance.new("TextButton")
+    button.Parent = Frame
+    button.Text = text
+    button.Size = UDim2.new(1, 0, 0.15, 0)
+    button.Position = UDim2.new(0, 0, yOffset, 0)
+    button.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+    button.TextColor3 = Color3.fromRGB(255, 255, 255)
+    button.Font = Enum.Font.SourceSansBold
+    button.TextSize = 16
+    button.MouseButton1Click:Connect(callback)
+    return button
+end
+
+-- 🔥 Fireball Automático
+createButton("🔥 Fireball ON/OFF", 0.2, function()
+    while true do
+        game:GetService("ReplicatedStorage").Remotes.Fireball:FireServer()
+        wait(0.5)
+    end
+end)
+
+-- 💣 Bombox Automático
+createButton("💣 Bombox ON/OFF", 0.35, function()
+    while true do
+        game:GetService("ReplicatedStorage").Remotes.Bombox:FireServer()
+        wait(1)
+    end
+end)
+
+-- ☠️ Farm de Kill à Distância
+createButton("☠️ Farm de Kill", 0.5, function()
+    while true do
+        for _, player in pairs(game.Players:GetPlayers()) do
+            if player ~= game.Players.LocalPlayer then
+                game:GetService("ReplicatedStorage").Remotes.Attack:FireServer(player.Character.HumanoidRootPart.Position)
+            end
+        end
+        wait(1)
+    end
+end)
+
+-- ⚡ Speed Hack
+createButton("⚡ Speed Boost", 0.65, function()
+    game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 100
+end)
+
+-- 🚀 Super Jump
+createButton("🚀 Super Jump", 0.75, function()
+    game.Players.LocalPlayer.Character.Humanoid.JumpPower = 150
+end)
+
+-- 🔱 Auto Admin (Nome Brilhante)
+createButton("🔱 Auto Admin", 0.85, function()
+    local lp = game.Players.LocalPlayer
+    if lp.Character and lp.Character:FindFirstChild("Head") then
+        local billboard = Instance.new("BillboardGui", lp.Character.Head)
+        billboard.Size = UDim2.new(5, 0, 1, 0)
+        billboard.StudsOffset = Vector3.new(0, 2, 0)
+        billboard.Adornee = lp.Character.Head
+        
+        local textLabel = Instance.new("TextLabel", billboard)
+        textLabel.Size = UDim2.new(1, 0, 1, 0)
+        textLabel.Text = "👑 "..lp.Name.." 👑"
+        textLabel.TextColor3 = Color3.fromRGB(255, 215, 0) -- Dourado brilhante
+        textLabel.BackgroundTransparency = 1
+        textLabel.TextScaled = true
+    end
+end)
